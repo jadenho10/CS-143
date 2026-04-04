@@ -49,15 +49,18 @@ CREATE TABLE R (
 );
 
 INSERT INTO R (x, y, PointName)
-VALUES (3, 4, 'Black'), 
+VALUES (1, 4, 'Black'), 
 (2, 5, 'Yellow'), 
 (1, 1, 'Green'), 
-(10, 5, 'Red');
+(1, 5, 'Red');
 
 SELECT * FROM R WHERE R.x < 3 
 ```
 
 The output will exclude the (10, 5, Red) row which will be fewer rows than R. 
+
+Adding more rows from SELECT is impossible in this scenario. You can only discard or add the amount
+of rows you have. 
 
 5. SELECT x + x FROM R 
 
