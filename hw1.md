@@ -41,6 +41,28 @@ VALUES (3, 4, 'Black'),
 (10, 5, 'Red');    
 ```
 
+```sql
+CREATE TABLE R (
+    x bigint,
+    y bigint,
+    PointName text
+);
+
+INSERT INTO R (x, y, PointName)
+VALUES (3, 4, 'Black'), 
+(2, 5, 'Yellow'), 
+(1, 1, 'Green'), 
+(10, 5, 'Red');
+
+SELECT * FROM R WHERE R.x < 3 
+```
+
 The output will exclude the (10, 5, Red) row which will be fewer rows than R. 
 
+5. SELECT x + x FROM R 
+
+6. SELECT DISTINCT x FROM R
+This has to return all UNIQUE x from the table. 
+
+7. 
 
