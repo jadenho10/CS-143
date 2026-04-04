@@ -63,9 +63,75 @@ Adding more rows from SELECT is impossible in this scenario. You can only discar
 of rows you have. 
 
 5. SELECT x + x FROM R 
+Same number of rows:
+```sql
+CREATE TABLE R (
+    x bigint,
+    y bigint,
+    PointName text
+);
+
+INSERT INTO R (x, y, PointName)
+VALUES (1, 4, 'Black'), 
+(2, 5, 'Yellow'), 
+(1, 1, 'Green'), 
+(1, 5, 'Red');
+
+SELECT x + x FROM R 
+```
+
+Fewer rows and More rows is impossible! The query always outputs the same number of rows 
+requested by the table. 
+
 
 6. SELECT DISTINCT x FROM R
-This has to return all UNIQUE x from the table. 
+This has to return all UNIQUE x from the table R. 
+ 
+Having MORE rows in a distinct output is impossible. Len(set(X)) <= Len(X)
 
-7. 
+a) The query outputs fewer rows than SELECT x, avg(y) FROM R GROUP BY x
+
+
+This will output only one row. 
+```sql
+CREATE TABLE R (
+    x bigint,
+    y bigint,
+    PointName text
+);
+
+INSERT INTO R (x, y, PointName)
+VALUES (1, 4, 'Black'), 
+(1, 5, 'Yellow'), 
+(1, 1, 'Green'), 
+(1, 5, 'Red');
+```
+
+
+This will output every row.
+```sql
+CREATE TABLE R (
+    x bigint,
+    y bigint,
+    PointName text
+);
+
+INSERT INTO R (x, y, PointName)
+VALUES (1, 4, 'Black'), 
+(2, 5, 'Yellow'), 
+(3, 1, 'Green'), 
+(4, 5, 'Red');
+```
+
+Outputting more rows is impossible. The number of rows is limited by the unique number of x elems
+which is the amount of rows in the og table. 
+
+7. SELECT * FROM R, S WHERE R.x = S.y where j is the output size.
+
+$j \leq r + s$ 
+
+
+
+
+ 
 
