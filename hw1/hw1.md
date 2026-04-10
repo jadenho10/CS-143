@@ -130,6 +130,37 @@ which is the amount of rows in the og table.
 
 $j \leq r + s$ 
 
+$j \leq r * s$ 
+
+$j \geq \min(r, s)$ 
+
+$j \geq \max(r, s)$ 
+
+Make some tables that violate these conditions
+
+
+8. Pointwise Product
+
+```sql
+SELECT a_v * b_v AS values FROM a, b WHERE a_i = b_i;
+```
+
+9. Dot Product
+
+```sql
+SELECT SUM(a_v * b_v) AS dot_product FROM a, b WHERE a_i = b_i;
+```
+10. Outer Product
+We want to multiply every value in a & b so we can use CROSS JOIN. 
+
+```sql
+SELECT a_i, b_i AS j, a_v * b_v AS v 
+FROM a, b 
+```
+11. Matrix Product
+$C_{ik} = \sum_j A_{ij}B_{jk}$ 
+
+
 
 
 
