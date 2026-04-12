@@ -160,6 +160,78 @@ FROM a, b
 11. Matrix Product
 $C_{ik} = \sum_j A_{ij}B_{jk}$ 
 
+Assuming that we have two tables A, B with columns i, j, v: 
+
+```sql
+SELECT a.i, b.j AS k, sum(a.v * b.v) AS v
+FROM a, b
+WHERE a.j = b.i
+ORDER BY a.i, b.j
+```
+
+12. 
+No changes needed. The inner JOIN naturally will skip over any missing entries, which is fine. You only need to compute entries nonzero. 
+
+If you're multiplying something by zero, you get zero regardless of the number (mathematicians could debate this for other random things like infinity, not my problem). 
+
+So sparse tables are closed under SQL tables. 
+
+13. Semijoin:
+```sql
+SELECT * FROM R 
+WHERE EXISTS (SELECT 1 FROM S WHERE R.y = S.y)
+```
+
+14. What are possible relationships between $|R \bowtie S|$ and $|R \ltimes S|$?
+
+$|R \ltimes S| \leq |R \bowtie S|$.
+
+15. 
+
+16. What happens when SELECT evaluates to null?
+SELECT will essentially return NULL with whatever value you have. 
+
+You won't have an empty table.
+
+17. 
+Data operators, predicates, logical connectives with NULLS. 
+
+You will sometimes get Unknown and sometimes get something else.
+
+It's sometimes possible to not ended up with UNKNOWN even if an input data value is NULL?
+```sql
+SELECT * FROM r WHERE 2 != 2 AND NULL
+```
+
+18. 
+We say a column k is a primary key of a table, if the value in that column uniquely identifies the row. Write a SQL query to check if a given column is a primary key. (hint: one way to do this is with GROUP BY and HAVING; another way is to use COUNT(DISTINCT ...). Make sure you know how to do it both ways.)
+
+Method 1:
+```sql
+SELECT k 
+FROM R 
+GROUP BY x
+HAVING COUNT(*) > 1
+```
+Method 2:
+```sql
+SELECT 1 HAVING COUNT(*) = COUNT(DISTINCT k)
+```
+
+19. Given a primary k in R, a column f in S is a foreign key referencing R.k if every 
+value of S.f also appears in R.k. Write a SQL query to check if a given column S.f 
+can be a foreign key referencing R.k. 
+
+```sql
+SELECT * FROM S WHERE EXISTS (SELECT 1 WHERE R.k = S.f) 
+```
+
+This returns all valid ones. 
+
+
+
+
+
 
 
 
