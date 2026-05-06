@@ -138,6 +138,9 @@ $j \geq \max(r, s)$
 
 Make some tables that violate these conditions
 
+This cannot violate r * s but can for r + s.
+
+JOIN can have at most R x S.
 
 8. Pointwise Product
 

@@ -20,46 +20,80 @@ def closure(fds, xs):
   fds: the set of input fds
   xs: the set of attributes to take closure of
   """
-    c = xs
-    while True:
-        before = c.copy() # this is to check later if the set changes or not
-        for x, y in fds:
-            if x in c:
-                c.add(y)
-        if c == before:
-            break
-    return c
+    res = set(xs)
+    remaining = fds
+    changed = True
+
+    while changed:
+        changed = False
+        next_remaining = []
+        for (x, y) in remaining:
+            if x.issubset(res):
+                newAttr = y - res
+                if newAttr:
+                    res |= newAttr
+                    changed = True
+            else:
+                next_remaining.append((x, y))
+        remaining = next_remaining
+    return res
 ```
-The time complexity should be $O(n^2 \times m)$
+The time complexity should be $O(n^2 \times m)$ with m FDs and n times. 
+
+We can discard an FD as soon as it successfully applies because the closure grows monotonically. In other words, it's safe to remove it because we don't gain anything from keeping it in our sets of FDs. 
+
 
 4. Check algorithm:
 I'm gonna assume fds is a set of tuples where
 x -> y := (x, y)
 
-This can be a graph problem tbh. Use BFS
 ```python
 def check(fds, fd):
 """Check if fd follows from fds"""
-    lhs, rhs = fd  # retrieving both attributes e.g. x -> y  lhs = x, rhs = y
-    adjList = defaultdict(list)
-    for left, right in fds:
-        adjList[left].append(right)
-    
-    q = deque([lhs])
-    visit = set()
-    visit.add(lhs)
-    while q:
-        node = q.popleft()
-        if node == rhs:
-            return True
-        for nei in adjList[node]:
-            if nei not in visit:
-                q.append(nei)
-                visit.add(nei)
-    return False
+    x, y = fd
+    return y.issubset(closure(fds, x)) 
 ```
 5. Run the check algorithm to prove Angstrom's axioms.
 
 Proof for $Y \subseteq X \implies X \rightarrow Y$.
 
- 
+check([], (X, Y)) => closure ([], X) = X
+
+Since we have  $Y \subset X$, $X \rightarrow Y$
+
+$\{ X \to Y \} \vdash X \cup Z \to Y \cup Z$
+
+$(\{ X \to Y,\; Y \to Z \} \vdash X \to Z)$ 
+
+6. Write a function to check if a given set of attributes $X$ is a superkey. 
+
+If $X \rightarrow \Sigma$ where $\Sigma$ is the set of all table attributes
+
+Function takes 3 args: X, Phi, Sigma
+
+```python
+def superkey(X, phi, sigma) -> bool:
+    """
+    Phi - all FDs that hold over table
+    """
+    return closure(fds, X) == sigma
+
+```
+7. Prove this algorithm correctly decomposes the table. 
+```
+def decompose(R):
+  S = attributes of R
+  find X s.t. X+ != X & X+ != S
+  if not found:
+    return
+  else:
+    break R into X+, R2(S - (X+ - X))
+    decompose(R1) 
+    decompose(R2)
+```
+
+8. Implement the algorithm in Python
+
+9. 
+
+
