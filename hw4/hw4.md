@@ -11,16 +11,16 @@ def merge(arr1, arr2):
             res.append(arr2[j])
             j += 1
     
-    res += arr2[j:] + arr2[j:]
+    res += arr1[i:] + arr2[j:]
     return res
 
 ```
 
 2. Merge Sort
-```python
-def mergesort(array):
-    
-    mergedList = []
-    while len(array) > 1:
-
 ```
+1. Divide the array into halves. Stop when you have arrays of size 1. 
+2. Res = []
+3. Combine the arrays with the merge function. Do it until we have an array size == original array
+```
+
+3. 
