@@ -24,3 +24,16 @@ def merge(arr1, arr2):
 ```
 
 3. 
+```sql
+SELECT x, SUM(y) FROM t GROUP BY x ORDER BY x ASC;
+```
+
+4. Implement the query SELECT * FROM r, s WHERE r.y = s.y using sort-merge join. The table r has columns x, y, and s has columns y, z. Make sure you handle duplicates correctly.
+
+```sql
+SELECT * FROM r, s WHERE r.y = s.y GROUP BY y
+```
+
+5. Implement the group by-aggregate query above using a map (dictionary) instead.
+
+6. Implement the join query above using a map (dictionary) instead.
